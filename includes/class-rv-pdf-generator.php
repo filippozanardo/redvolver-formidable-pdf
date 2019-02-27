@@ -6,8 +6,12 @@ class RV_PDF_Generator
   public function generate($formid, $entryid, $args = array())
 	{
 
+      $data = array(
+        'formid' => $formid,
+        'entryid' => $entryid
+      );
       ob_start();
-      RVFPDF()->template_loader->get_template_part( 'default' ,'pdf',true );
+      RVFPDF()->template_loader->set_template_data( $data )->get_template_part( 'default' ,'pdf',true );
       $out = ob_get_contents();
       ob_end_clean();
 
@@ -25,7 +29,11 @@ class RV_PDF_Generator
       if ( isset( $args['download'] ) && $args['download'] ) {
         //$mpdf->Output();
         $mpdf->Output($filename, \Mpdf\Output\Destination::FILE);
-        $mpdf->Output($entryid.'.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+        if ( isset( $args['return'] ) && $args['return'] ) {
+          return $filename;
+        }else{
+          $mpdf->Output($entryid.'.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+        }
       }else{
         $mpdf->Output();
       }

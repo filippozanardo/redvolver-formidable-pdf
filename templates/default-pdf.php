@@ -4,8 +4,8 @@
  	exit;
  }
 
- $formid = $_REQUEST['formid'];
- $entryid = $_REQUEST['entryid'];
+ $formid = $data->formid;
+ $entryid = $data->entryid;
 
  if(empty($formid) || empty($entryid))
  {

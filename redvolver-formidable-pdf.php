@@ -101,6 +101,8 @@ class RV_Form_PDF {
 
 		add_action('frm_row_actions', array($this, 'rv_pdf_link'), 10, 2);
 		add_action('wp', array($this, 'rv_render_pdf'));
+
+		add_filter( 'frm_notification_attachment', array($this, 'attach_pdf'), 10, 3 );
 	}
 
 	public function activate() {
@@ -143,8 +145,8 @@ class RV_Form_PDF {
 
 
 		$args = array(
-			'download' => true
-			//'download' => false
+			'download' => true,
+			'return' => false
 		);
 
 		$formid = $_REQUEST['formid'];
@@ -152,6 +154,24 @@ class RV_Form_PDF {
 		$this->generator->generate($formid,$entryid,$args);
 
 		exit();
+	}
+
+	public function attach_pdf($attachments, $form, $args) {
+
+		$formid = $form->id;
+		$entryid = $args['entry']->id;
+
+		$args = array(
+			'download' => true,
+			'return' => true
+		);
+
+		$attach = $this->generator->generate($formid,$entryid,$args);
+
+		$attachments[] = $attach;
+
+		return $attachments;
+
 	}
 
 }
