@@ -1,0 +1,12 @@
+{
+    "name": "redvolver/redvolver-formidable-pdf",
+    "authors": [
+        {
+            "name": "Filippo Zanardo",
+            "email": "zanardo.filippo@gmail.com"
+        }
+    ],
+    "require": {
+        "mpdf/mpdf": "^7.1"
+    }
+}
